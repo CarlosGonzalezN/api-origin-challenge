@@ -2,12 +2,12 @@ const bcrypt = require("bcrypt");
 const connection = require("../../database");
 
 module.exports = {
-  //crear un nuevo usuario
+  //crea un nuevo usuario
   createUser: async (req, res) => {
     const { username, password } = req.body;
     const query = "INSERT INTO users (username, password) VALUES (?, ?)";
 
-    // Generar el hash de la contraseña utilizando bcrypt
+    // Genera el hash de la contraseña utilizando bcrypt
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
         console.error("Error al generar el hash de la contraseña:", err);
@@ -27,7 +27,7 @@ module.exports = {
       });
     });
   },
-  //buscar un usuario por nombre y validar la contraseña
+  //busca un usuario por nombre y validar la contraseña
   validate: async (req, res) => {
     const { username, password } = req.body;
     const query = "SELECT * FROM users WHERE username = ?";
@@ -46,7 +46,7 @@ module.exports = {
 
       const user = results[0];
 
-      // Validar la contraseña utilizando bcrypt
+      // Valida la contraseña utilizando bcrypt
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) {
           console.error("Error al comparar las contraseñas:", err);
